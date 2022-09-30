@@ -25,7 +25,7 @@ public class WhileBankApp {
 				int money = scn.nextInt();
 
 				for (int i = 0; i < banks.length; i++) {
-					if (banks[i] != null && banks[i].accNo.equals(accNo)) {
+					if (banks[i] != null && banks[i].getAccNo().equals(accNo)) {
 						banks[i].balance = banks[i].balance + money;
 					}
 				}
@@ -50,9 +50,8 @@ public class WhileBankApp {
 				for (int i = 0; i < banks.length; i++) {
 					if (banks[i] != null && banks[i].accNo.equals(accNo)) {
 						System.out.println("잔액 : " + banks[i].balance);
-					}
 				}
-
+				}
 			} else if (menu == 4) {
 				System.out.println("종료합니다.");
 
@@ -63,8 +62,8 @@ public class WhileBankApp {
 				String owner = scn.nextLine();
 
 				Account acc = new Account(); // 인스턴스 생성.
-				acc.accNo = accNo;
-				owner = owner;
+				acc.setAccNo(accNo);
+				acc.setOwner(owner);
 				// 계좌번호 생성.
 				for (int i = 0; i < banks.length; i++) {
 					if (banks[i] == null) {
@@ -76,5 +75,6 @@ public class WhileBankApp {
 			}
 		}
 	}
+	
 
 }
