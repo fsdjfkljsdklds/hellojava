@@ -51,6 +51,11 @@ public class BoardDAO {
 	// 3. 글상세보기
 	public void boardDetail() {
 		System.out.println("상세보기 기능.");
+		for(Board brd : myBoards) {
+			if(brd != null) {
+				System.out.println(brd.toString());
+			}
+		}
 		System.out.println("글번호입력>>>");
 		int bNo = scn.nextInt();
 		for (int i = 0; i < myBoards.length; i++) {
@@ -66,6 +71,11 @@ public class BoardDAO {
 	// 4. 글삭제
 	public void delBoard() {
 		System.out.println("글삭제 기능");
+		for(Board brd : myBoards) {
+			if(brd != null) {
+				System.out.println(brd.toString());
+			}
+		}
 		System.out.println("글번호입력>>>");
 		int bNo = scn.nextInt();
 		for (int i = 0; i < myBoards.length; i++) {
