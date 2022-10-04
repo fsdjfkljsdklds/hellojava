@@ -49,6 +49,12 @@ public class EmployeeArray implements EmployeeService {
 
 	@Override
 	public void print() {
+		for(int i=0; i<idx; i++) {
+			System.out.printf("%5d %10s %7d\n",
+					list[i].getEmployeeId(),
+					list[i].getName(),
+					list[i].getSalary());
+		}
 
 	}
 
