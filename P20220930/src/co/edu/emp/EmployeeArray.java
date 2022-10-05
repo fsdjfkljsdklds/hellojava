@@ -20,8 +20,8 @@ public class EmployeeArray implements EmployeeService {
 
 	@Override
 	public void input() {
-		
-		if(idx >= list.length) {
+
+		if (idx >= list.length) {
 			System.out.println("더 이상 입력불가.");
 			return; // 메소드 종료.
 		}
@@ -35,27 +35,46 @@ public class EmployeeArray implements EmployeeService {
 		int deptId = Integer.parseInt(scn.nextLine());
 		System.out.println("이메일>>>");
 		String email = scn.nextLine();
-		
+
 		Employee emp = new Employee(eId, name, sal, deptId, email);
-		list[idx++] = emp; 
+		list[idx++] = emp;
 
-		}
-
+	}
 
 	@Override
 	public String search(int employeeId) {
-		return null;
+		// 입력된 값중에서 찾도록. list[5] => idx
+		// 100,200,300
+		String result = null;
+		for (int i = 0; i < idx; i++) {
+			if (list[i].getEmployeeId() == employeeId) {
+				result = list[i].getName();
+				break;
+			}
+		}
+		return result;
+
 	}
 
 	@Override
 	public void print() {
-		for(int i=0; i<idx; i++) {
-			System.out.printf("%5d %10s %7d\n",
-					list[i].getEmployeeId(),
-					list[i].getName(),
+		for (int i = 0; i < idx; i++) {
+			System.out.printf("("+(i + 1) +")" + "%5d %10s %7d\n", list[i].getEmployeeId(), list[i].getName(),
 					list[i].getSalary());
 		}
 
+	}
+
+	@Override
+	public int searchSal(int employeeId) {
+		int result = -1;
+		for (int i = 0; i < idx; i++) {
+			if (list[i].getEmployeeId() == employeeId) {
+				result = list[i].getSalary();
+				break;
+			}
+		}
+		return result;
 	}
 
 }

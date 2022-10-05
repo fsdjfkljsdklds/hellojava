@@ -3,7 +3,7 @@ package co.edu.variable;
 public class MethodCalendar {
 
 	public static void main(String[] args) {
-		makeCal(3); // 호출.
+		makeCal(1); // 호출.
 	}
 
 	public static void makeCal(int month) {
