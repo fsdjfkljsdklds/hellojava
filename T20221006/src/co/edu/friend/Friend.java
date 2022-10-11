@@ -6,12 +6,7 @@ public class Friend {
 	private String phoneNumber;
 
 	// 필요한 생성자를 작성.
-	public Friend() {
-
-	}
-
 	public Friend(String name, String phoneNumber) {
-		super();
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 	}

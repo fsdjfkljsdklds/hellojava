@@ -6,9 +6,6 @@ public class CoFriend extends Friend {
 	private String department;
 
 	// 필요한 생성자를 작성.
-	public CoFriend() {
-		super();
-	}
 
 	public CoFriend(String name, String phoneNumber, String company, String department) {
 		super(name, phoneNumber);
@@ -36,10 +33,8 @@ public class CoFriend extends Friend {
 	// Friend클래스의 getInfo() 를 overriding 하세요.
 	@Override
 	public String getInfo() {
-		return "친구이름: " + getName() 
-		+ ", 연락처: " + getPhoneNumber() 
-		+ ", 회사명: " + this.company 
-		+ ", 부서: " + this.department + "입니다.";
+		return "친구이름: " + getName() + ", 연락처: " + getPhoneNumber() + ", 회사명: " + this.company + ", 부서: "
+				+ this.department + "입니다.";
 	}
 
 }

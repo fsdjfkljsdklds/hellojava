@@ -6,9 +6,6 @@ public class UniFriend extends Friend {
 	private String major;
 
 	// 필요한 생성자를 작성.
-	public UniFriend() {
-		super();
-	}
 
 	public UniFriend(String name, String phoneNumber, String college, String major) {
 		super(name, phoneNumber);

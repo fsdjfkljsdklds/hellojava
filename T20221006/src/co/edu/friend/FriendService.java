@@ -11,6 +11,6 @@ public interface FriendService {
 	public void modFriend(String name, String phoneNumber);
 
 	// 삭제
-	public void delFriend();
+	public void delFriend(String phoneNumber);
 
 }
