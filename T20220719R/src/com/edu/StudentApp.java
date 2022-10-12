@@ -10,6 +10,7 @@ public class StudentApp {
 	Scanner scn = new Scanner(System.in);
 
 	public void execute() {
+		// 추가, 목록, 수정
 
 	}
 }
