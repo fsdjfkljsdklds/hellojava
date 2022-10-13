@@ -1,7 +1,5 @@
 package co.edu.friend;
 
-import java.util.Scanner;
-
 public class FriendListImpl implements FriendService {
 
 	Friend[] friendList = new Friend[10]; // 친구정보 10명을 저장할 수 있는 공간생성 완료.
@@ -24,7 +22,6 @@ public class FriendListImpl implements FriendService {
 				break;
 			}
 		}
-
 	}
 
 	@Override
@@ -41,7 +38,6 @@ public class FriendListImpl implements FriendService {
 				break;
 			}
 		}
-
 	}
 
 	@Override
@@ -50,7 +46,6 @@ public class FriendListImpl implements FriendService {
 		for (int i = 0; i < friendList.length; i++) {
 			if (friendList[i] != null && friendList[i].getPhoneNumber().equals(phoneNumber)) {
 				friendList[i] = null;
-				break;
 			}
 		}
 	}

@@ -15,22 +15,18 @@ public class Friend {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getName() {
+		return name;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public String getPhoneNumber() {
-		return this.phoneNumber;
 	}
 
 	// 친구의 이름과 연락처를 출력하는 getInfo() 메소드 작성.
 	public String getInfo() {
 		return "친구이름: " + name + ", 연락처: " + phoneNumber;
 	}
-
 }

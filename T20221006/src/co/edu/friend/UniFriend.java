@@ -6,37 +6,33 @@ public class UniFriend extends Friend {
 	private String major;
 
 	// 필요한 생성자를 작성.
-
 	public UniFriend(String name, String phoneNumber, String college, String major) {
 		super(name, phoneNumber);
 		this.college = college;
 		this.major = major;
 	}
+
 	// get, set 메소드 작성.
+	public String getCollege() {
+		return college;
+	}
 
 	public void setCollege(String college) {
 		this.college = college;
+	}
+
+	public String getMajor() {
+		return major;
 	}
 
 	public void setMajor(String major) {
 		this.major = major;
 	}
 
-	public String getCollege() {
-		return this.college;
-	}
-
-	public String getMajor() {
-		return this.major;
-	}
-
 	// Friend클래스의 getInfo() 를 overriding 하세요.
 	@Override
 	public String getInfo() {
-		return "친구이름: " + getName() 
-		+ ", 연락처: " + getPhoneNumber() 
-		+ ", 학교명: " + this.college + ", 전공: " 
-		+ this.major + "입니다.";
+		return "친구이름: " + getName() + ", 연락처: " + getPhoneNumber() + ", 학교: " + college + ", 전공: " + major;
 	}
 
 }

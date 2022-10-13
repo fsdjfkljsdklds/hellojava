@@ -9,7 +9,7 @@ public class Board {
 	private int cnt;
 
 	public Board() {
-
+		
 	}
 
 	public Board(int number, String title, String content, String writer, String date, int cnt) {
@@ -31,6 +31,9 @@ public class Board {
 	public Board(int number, String content) {
 		this.number = number;
 		this.content = content;
+	}
+	public Board(int cnt) {
+		this.cnt = cnt;
 	}
 
 	public int getNumber() {
