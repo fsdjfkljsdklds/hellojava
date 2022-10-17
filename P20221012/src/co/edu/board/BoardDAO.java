@@ -9,23 +9,23 @@ import co.edu.jdbc.Employee;
 
 //C(reate) R(ead) U(pdate) D(elete)
 public class BoardDAO extends DAO {
-//	// 회원가입
-//	public void user(login user) {
-//		String sql = "insert into user_table (id, passwd, user_name)"//
-//				+ "values('" + user.getId()//
-//				+ "', '" + user.getPasswd()//
-//				+ "', '" + user.getName() + "')";
-//		conn = getConnect();
-//		try {
-//			stmt = conn.createStatement();
-//			int r = stmt.executeUpdate(sql);
-//			System.out.println(r + "건 입력완료");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			disConnect();
-//		}
-//	}
+	// 회원가입
+	public void user(login user) {
+		String sql = "insert into user_table (id, passwd, user_name)"//
+				+ "values('" + user.getId()//
+				+ "', '" + user.getPasswd()//
+				+ "', '" + user.getName() + "')";
+		conn = getConnect();
+		try {
+			stmt = conn.createStatement();
+			int r = stmt.executeUpdate(sql);
+			System.out.println(r + "건 입력완료");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+	}
 
 	// 로그인
 

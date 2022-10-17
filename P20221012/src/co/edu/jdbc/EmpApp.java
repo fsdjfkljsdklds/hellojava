@@ -14,7 +14,7 @@ public class EmpApp {
 
 		Employee emp1 = new Employee(empId, lastName, email, hireDate, jobId);
 
-//		empDao.insert(emp1);
+		empDao.insert(emp1);
 //		empDao.update(emp1);
 //		empDao.delete(600);
 		System.out.println(empDao.getEmp(500));
