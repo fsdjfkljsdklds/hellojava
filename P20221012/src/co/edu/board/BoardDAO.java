@@ -155,7 +155,8 @@ public class BoardDAO extends DAO {
 						, rs.getString("board_title")//
 						, rs.getString("board_content")//
 						, rs.getString("board_writer")//
-						, rs.getString("creation_date"), rs.getInt("cnt"));
+						, rs.getString("creation_date")//
+						, rs.getInt("cnt"));
 			}
 
 		} catch (SQLException e) {

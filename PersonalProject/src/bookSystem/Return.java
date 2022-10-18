@@ -1,6 +1,6 @@
 package bookSystem;
 
-public class Book {
+public class Return {
 
 	private String bNo;
 	private String title;
@@ -9,12 +9,29 @@ public class Book {
 	private String company;
 	private String price;
 	private String inputdate;
+	private String available;
 
-	public Book() {
-
+	public Return(String bNo, String title, String genre, String author, String company, String price, String inputdate,
+			String available) {
+		super();
+		this.bNo = bNo;
+		this.title = title;
+		this.genre = genre;
+		this.author = author;
+		this.company = company;
+		this.price = price;
+		this.inputdate = inputdate;
+		this.available = available;
 	}
 
-	public Book(String bNo, String title, String genre, String author, String company, String price, String inputdate) {
+	public Return(String bNo, String title, String available) {
+		this.bNo = bNo;
+		this.title = title;
+		this.available = available;
+	}
+
+	public Return(String bNo, String title, String genre, String author, String company, String price,
+			String inputdate) {
 		super();
 		this.bNo = bNo;
 		this.title = title;
@@ -25,42 +42,7 @@ public class Book {
 		this.inputdate = inputdate;
 	}
 
-	public Book(String bNo) {
-		super();
-		this.bNo = bNo;
-	}
-
-	public Book(String bNo, String title) {
-		super();
-		this.bNo = bNo;
-		this.title = title;
-	}
-
-	public Book(String bNo, String title, String genre) {
-		super();
-		this.bNo = bNo;
-		this.title = title;
-		this.genre = genre;
-	}
-
-	public Book(String bNo, String title, String genre, String author) {
-		super();
-		this.bNo = bNo;
-		this.title = title;
-		this.genre = genre;
-		this.author = author;
-	}
-
-	public Book(String bNo, String title, String genre, String author, String company) {
-		super();
-		this.bNo = bNo;
-		this.title = title;
-		this.genre = genre;
-		this.author = author;
-		this.company = company;
-	}
-
-	public Book(String bNo, String title, String genre, String author, String company, String price) {
+	public Return(String bNo, String title, String genre, String author, String company, String price) {
 		super();
 		this.bNo = bNo;
 		this.title = title;
@@ -68,6 +50,38 @@ public class Book {
 		this.author = author;
 		this.company = company;
 		this.price = price;
+	}
+
+	public Return(String bNo, String title, String genre, String author, String company) {
+		super();
+		this.bNo = bNo;
+		this.title = title;
+		this.genre = genre;
+		this.author = author;
+		this.company = company;
+	}
+
+	public Return(String bNo, String title, String genre, String author) {
+		super();
+		this.bNo = bNo;
+		this.title = title;
+		this.genre = genre;
+		this.author = author;
+	}
+
+	public Return(String bNo, String title) {
+		super();
+		this.bNo = bNo;
+		this.title = title;
+	}
+
+	public Return(String bNo) {
+		super();
+		this.bNo = bNo;
+	}
+
+	public Return() {
+		super();
 	}
 
 	public String getbNo() {
@@ -126,11 +140,16 @@ public class Book {
 		this.inputdate = inputdate;
 	}
 
-	@Override
-	public String toString() {
-		return "도서목록 도서번호:" + bNo + "\n" + "       도서제목:" + title + "\n" + "       도서장르:" + genre + "\n" + "       작가:"
-				+ author + "\n" + "       출판사:" + company + "\n" + "       등록일:" + price + "\n" + "       가격:"
-				+ inputdate + "\n" + "       ";
+	public String getAvailable() {
+		return available;
 	}
 
+	public void setAvailable(String available) {
+		this.available = available;
+	}
+
+	@Override
+	public String toString() {
+		return "대여목록 도서번호:" + bNo + "\n" + "       도서제목:" + title + "\n" + "       >> 대여" + available + " <<";
+	}
 }
