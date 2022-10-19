@@ -5,9 +5,11 @@ import java.util.Scanner;
 
 public class BookMain {
 	public static void main(String[] args) {
+
 		BookDAO dao = new BookDAO();
 		Scanner scn = new Scanner(System.in);
 		boolean chk = false;
+		
 		try {
 			while (!chk) {
 				System.out.println("==================================");
@@ -22,13 +24,15 @@ public class BookMain {
 					String id = scn.nextLine();
 					System.out.println("Passwd>>");
 					String passwd = scn.nextLine();
-
-					dao.welcome(id);
 					chk = dao.getId(id, passwd);
+					if (chk == true) {
+						dao.welcome(id);
+					}
 					if (chk == false) {
 						System.out.println("로그인 실패");
 						chk = false;
 					}
+
 				} else if (menu == 2) {
 					System.out.println(">>>>>회원가입 페이지입니다<<<<<");
 					System.out.println("id생성>> ");
@@ -89,7 +93,9 @@ public class BookMain {
 						if (subMenu4 == 1) {
 							System.out.println("도서번호 입력>> ");
 							String bNo = scn.nextLine();
-							System.out.println(dao.getList(bNo));
+							if (dao.getList(bNo) != null) {
+								System.out.println(dao.getList(bNo));
+							}
 						} else if (subMenu4 == 2) {
 							System.out.println("도서명 입력>> ");
 							String title = scn.nextLine();
@@ -106,20 +112,24 @@ public class BookMain {
 					} else if (subMenu1 == 4) {
 						System.out.println("수정할 도서번호 입력>> ");
 						String bNo = scn.nextLine();
-						System.out.println("수정페이지입니다.");
-						System.out.println("========================");
-						System.out.println("수정할 도서명 입력>> ");
-						String title = scn.nextLine();
-						System.out.println("수정할 장르 입력>> ");
-						String genre = scn.nextLine();
-						System.out.println("수정할 작가명 입력>> ");
-						String author = scn.nextLine();
-						System.out.println("수정할 출판사 입력>> ");
-						String company = scn.nextLine();
-						System.out.println("수정할 가격(숫자) 입력>> ");
-						String price = scn.nextLine();
-						dao.update(new Book(bNo, title, genre, author, company, price));
-						dao.borrowList(new Borrow(bNo, title, genre, author, company, price));
+
+						if (dao.getList(bNo) != null) {
+							System.out.println("수정페이지입니다.");
+							System.out.println("========================");
+							System.out.println("수정할 도서명 입력>> ");
+							String title = scn.nextLine();
+							System.out.println("수정할 장르 입력>> ");
+							String genre = scn.nextLine();
+							System.out.println("수정할 작가명 입력>> ");
+							String author = scn.nextLine();
+							System.out.println("수정할 출판사 입력>> ");
+							String company = scn.nextLine();
+							System.out.println("수정할 가격(숫자) 입력>> ");
+							String price = scn.nextLine();
+							dao.update(new Book(bNo, title, genre, author, company, price));
+							dao.borrowList(new Borrow(bNo, title, genre, author, company, price));
+						}
+
 					} else if (subMenu1 == 5) {
 						System.out.println("삭제할 도서번호 입력>> ");
 						String bNo = scn.nextLine();
@@ -137,9 +147,8 @@ public class BookMain {
 					System.out.println("잘못된 입력입니다");
 				}
 			} else if (subMenu == 2) {
-				System.out.println(">>>>대여메뉴입니다<<<< " + "\n" + "Enter입력");
+				System.out.println(">>>>대여메뉴입니다<<<< ");
 				System.out.println("==================================");
-				scn.nextLine();
 				System.out.println("도서목록");
 				List<Borrow> list = dao.borrowSearch();
 				for (Borrow emp : list) {

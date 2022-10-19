@@ -7,6 +7,8 @@ import java.util.List;
 
 public class BookDAO extends DAO {
 
+	//파일만들기
+
 	// 회원가입
 	public void user(Login user) {
 		String sql = "insert into user_table (id, passwd, user_name)"//
@@ -21,7 +23,7 @@ public class BookDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("잘못된 입력입니다.");
+			System.out.println("잘못된 입력입니다");
 			return;
 		} finally {
 			disConnect();
@@ -67,13 +69,13 @@ public class BookDAO extends DAO {
 				str.add(rs.getString("id"));
 				str.add(rs.getString("passwd"));
 				if (str.get(0).equals(id) && str.get(1).equals(passwd)) {
-					System.out.println("로그인 성공.");
+					System.out.println("로그인 성공");
 					chk = true;
 				}
 			}
 
 		} catch (Exception e) {
-			System.out.println("로그인 실패.");
+			System.out.println("로그인 실패");
 			chk = false;
 		} finally {
 			disConnect();
@@ -128,10 +130,12 @@ public class BookDAO extends DAO {
 	// 도서목록
 	public List<Book> search() {
 		conn = getConnect();
+		String sql = "select * from book_table order by cast(bNo as int)";
 		List<Book> list = new ArrayList<>(); // 반환하기 위한 값.
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from book_table order by cast(bNo as int)");
+			psmt = conn.prepareStatement(sql);
+			int r = psmt.executeUpdate();
+			rs = psmt.executeQuery();
 			while (rs.next()) {
 				list.add(new Book(rs.getString("bNo")//
 						, rs.getString("title")//
@@ -140,6 +144,9 @@ public class BookDAO extends DAO {
 						, rs.getString("company")//
 						, rs.getString("inputdate")//
 						, rs.getString("price")));
+			}
+			if (r == 0) {
+				System.out.println("목록이 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -212,6 +219,8 @@ public class BookDAO extends DAO {
 						, rs.getString("company")//
 						, rs.getString("inputdate")//
 						, rs.getString("price"));
+			} else {
+				System.out.println("해당 도서번호는 없습니다");
 			}
 
 		} catch (SQLException e) {
@@ -232,7 +241,7 @@ public class BookDAO extends DAO {
 			psmt.setString(1, title);
 
 			rs = psmt.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				list.add(new Book(rs.getString("bNo")//
 						, rs.getString("title")//
 						, rs.getString("genre")//
@@ -240,6 +249,8 @@ public class BookDAO extends DAO {
 						, rs.getString("company")//
 						, rs.getString("inputdate")//
 						, rs.getString("price")));
+			} else {
+				System.out.println("해당 도서는 없습니다");
 			}
 			for (Book l : list) {
 				System.out.println(l);
@@ -324,7 +335,11 @@ public class BookDAO extends DAO {
 			psmt.setString(1, book.getbNo());
 
 			int r = psmt.executeUpdate();
-			System.out.println("대여완료");
+			if (r == 0) {
+				System.out.println("대여실패");
+			} else {
+				System.out.println("대여완료");
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -345,8 +360,12 @@ public class BookDAO extends DAO {
 			psmt.setString(1, book.getbNo());
 
 			int r = psmt.executeUpdate();
-			System.out.println("반납완료");
-
+			
+			if (r == 0) {
+				System.out.println("반납실패");
+			}else {
+				System.out.println("반납완료");	
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -355,6 +374,7 @@ public class BookDAO extends DAO {
 
 	}
 
+	// 삭제
 	public void delete(String bNo) {
 		String sql = "delete from book_table Where bNo=?";
 		conn = getConnect();
@@ -363,13 +383,13 @@ public class BookDAO extends DAO {
 			psmt.setString(1, bNo);
 
 			int r = psmt.executeUpdate();
-			System.out.println(r+"건 삭제.");
-			if(r==1) {
-				System.out.println("삭제완료");
-			}else {
-				System.out.println("삭제할 내역이없습니다");	
+
+			if (r == 1) {
+				System.out.println(r + "건 삭제");
+			} else {
+				System.out.println("삭제할 내역이 없습니다");
 			}
-			
+
 		} catch (SQLSyntaxErrorException e) {
 
 		} catch (Exception e) {
@@ -379,31 +399,6 @@ public class BookDAO extends DAO {
 		}
 
 	}
-	// 삭제
-//	public void delete(String bNo) {
-//		String sql = "delete from book_table Where bNo=?";
-//		conn = getConnect();
-//		try {
-//			psmt = conn.prepareStatement(sql);
-//			psmt.setString(1, bNo);
-//			rs = psmt.executeQuery();
-//			int r = psmt.executeUpdate();
-//			if(rs.next()) {
-//			System.out.println("삭제완료");
-//			}else {
-//				System.out.println("삭제할 내역이없습니다");	
-//			}
-//
-//		} catch (SQLException e) {
-//			
-//		} catch (Exception e) {
-//
-//			e.printStackTrace();
-//		} finally {
-//			disConnect();
-//		}
-//
-//	}
 
 	// 대여목록 삭제
 	public void borrowDelete(String bNo) {
