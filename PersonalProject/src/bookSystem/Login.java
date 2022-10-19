@@ -50,7 +50,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "login [id=" + id + ", passwd=" + passwd + ", name=" + name + "]";
+		return ">>>환영합니다 "+ id + "님<<<";
 	}
 
 }

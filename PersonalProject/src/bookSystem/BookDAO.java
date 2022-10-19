@@ -1,6 +1,7 @@
 package bookSystem;
 
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,30 @@ public class BookDAO extends DAO {
 		} finally {
 			disConnect();
 		}
+	}
+
+	// 환영
+	public List<Login> welcome(String id) {
+		conn = getConnect();
+		List<Login> list = new ArrayList<Login>();
+		String sql = "select user_name from user_table where id =?  ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				list.add(new Login(rs.getString("user_name")));
+			}
+			for (Login l : list) {
+				System.out.println(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return list;
 	}
 
 	// 로그인
@@ -71,7 +96,7 @@ public class BookDAO extends DAO {
 		try {
 			stmt = conn.createStatement();
 			int r = stmt.executeUpdate(sql);
-			System.out.println(r + "건 입력됨.");
+			System.out.println("도서등록 완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -106,7 +131,7 @@ public class BookDAO extends DAO {
 		List<Book> list = new ArrayList<>(); // 반환하기 위한 값.
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from book_table");
+			rs = stmt.executeQuery("select * from book_table order by cast(bNo as int)");
 			while (rs.next()) {
 				list.add(new Book(rs.getString("bNo")//
 						, rs.getString("title")//
@@ -130,7 +155,7 @@ public class BookDAO extends DAO {
 		List<Borrow> list = new ArrayList<>(); // 반환하기 위한 값.
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from borrow_table");
+			rs = stmt.executeQuery("select * from borrow_table order by cast(bNo as int)");
 			while (rs.next()) {
 				list.add(new Borrow(rs.getString("bNo")//
 						, rs.getString("title")//
@@ -155,7 +180,7 @@ public class BookDAO extends DAO {
 		List<Return> list = new ArrayList<>(); // 반환하기 위한 값.
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from borrow_table");
+			rs = stmt.executeQuery("select * from borrow_table order by cast(bNo as int)");
 			while (rs.next()) {
 				list.add(new Return(rs.getString("bNo")//
 						, rs.getString("title")//
@@ -169,7 +194,7 @@ public class BookDAO extends DAO {
 		return list;
 	}
 
-	// 한건만 조회
+	// 한건만 조회(책번호)
 	public Book getList(String bNo) {
 		conn = getConnect();
 		Book list = null;
@@ -189,6 +214,36 @@ public class BookDAO extends DAO {
 						, rs.getString("price"));
 			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return list;
+	}
+
+	// 한건만 조회(책이름 검색)
+	public List<Book> getTitleList(String title) {
+		conn = getConnect();
+		List<Book> list = new ArrayList<Book>();
+		String sql = "select * from book_table where title like '%'||?||'%' order by cast(bNo as int)  ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, title);
+
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				list.add(new Book(rs.getString("bNo")//
+						, rs.getString("title")//
+						, rs.getString("genre")//
+						, rs.getString("author")//
+						, rs.getString("company")//
+						, rs.getString("inputdate")//
+						, rs.getString("price")));
+			}
+			for (Book l : list) {
+				System.out.println(l);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -228,6 +283,36 @@ public class BookDAO extends DAO {
 
 	}
 
+	// 대여수정
+	public void borrowList(Borrow book) {
+		String sql = "update borrow_table "//
+				+ "set title = ?, "//
+				+ "    genre = ?, "//
+				+ "    author = ?, "//
+				+ "    company = ?, "//
+				+ "    inputdate = Sysdate, "//
+				+ "    price = ? "//
+				+ "where bNo = ?";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, book.getTitle());
+			psmt.setString(2, book.getGenre());
+			psmt.setString(3, book.getAuthor());
+			psmt.setString(4, book.getCompany());
+			psmt.setString(5, book.getPrice());
+			psmt.setString(6, book.getbNo());
+
+			int r = psmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+
+	}
+
 	// 대여
 	public void borrowUpdate(Borrow book) {
 		String sql = "update borrow_table "//
@@ -239,7 +324,7 @@ public class BookDAO extends DAO {
 			psmt.setString(1, book.getbNo());
 
 			int r = psmt.executeUpdate();
-			System.out.println(r + "건 변경");
+			System.out.println("대여완료");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -260,7 +345,7 @@ public class BookDAO extends DAO {
 			psmt.setString(1, book.getbNo());
 
 			int r = psmt.executeUpdate();
-			System.out.println(r + "건 변경");
+			System.out.println("반납완료");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -270,21 +355,55 @@ public class BookDAO extends DAO {
 
 	}
 
-	// 삭제
 	public void delete(String bNo) {
 		String sql = "delete from book_table Where bNo=?";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, bNo);
+
 			int r = psmt.executeUpdate();
-		} catch (SQLException e) {
+			System.out.println(r+"건 삭제.");
+			if(r==1) {
+				System.out.println("삭제완료");
+			}else {
+				System.out.println("삭제할 내역이없습니다");	
+			}
+			
+		} catch (SQLSyntaxErrorException e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			disConnect();
 		}
 
 	}
+	// 삭제
+//	public void delete(String bNo) {
+//		String sql = "delete from book_table Where bNo=?";
+//		conn = getConnect();
+//		try {
+//			psmt = conn.prepareStatement(sql);
+//			psmt.setString(1, bNo);
+//			rs = psmt.executeQuery();
+//			int r = psmt.executeUpdate();
+//			if(rs.next()) {
+//			System.out.println("삭제완료");
+//			}else {
+//				System.out.println("삭제할 내역이없습니다");	
+//			}
+//
+//		} catch (SQLException e) {
+//			
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//		} finally {
+//			disConnect();
+//		}
+//
+//	}
 
 	// 대여목록 삭제
 	public void borrowDelete(String bNo) {

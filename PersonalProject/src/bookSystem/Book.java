@@ -128,9 +128,10 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "도서목록 도서번호:" + bNo + "\n" + "       도서제목:" + title + "\n" + "       도서장르:" + genre + "\n" + "       작가:"
-				+ author + "\n" + "       출판사:" + company + "\n" + "       등록일:" + price + "\n" + "       가격:"
-				+ inputdate + "\n" + "       ";
+		return "=============================="
+				+ ""+"\n"+"[도서목록] 도서번호:" + bNo + "\n" + "         도서명:" + title + "\n" + "         장르:" + genre + "\n" + "         작가명:"
+				+ author + "\n" + "         출판사:" + company + "\n" + "         등록일:" + price + "\n" + "         가격:"
+				+ inputdate+"원" ;
 	}
 
 }
