@@ -50,7 +50,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return ">>>환영합니다 "+ id + "님<<<";
+		return ">>>"+id+"님 환영합니다<<<";
 	}
 
 }

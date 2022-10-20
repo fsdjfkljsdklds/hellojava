@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO extends DAO {
-
-	//파일만들기
+	boolean chk = false;
+	// 파일만들기
 
 	// 회원가입
 	public void user(Login user) {
@@ -57,7 +57,7 @@ public class BookDAO extends DAO {
 	// 로그인
 	public boolean getId(String id, String passwd) {
 		conn = getConnect();
-		boolean chk = false;
+
 		List<String> str = new ArrayList<String>();
 		String sql = "select * from user_table where id = ? ";
 		try {
@@ -239,18 +239,122 @@ public class BookDAO extends DAO {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, title);
-
+			int r = psmt.executeUpdate();
 			rs = psmt.executeQuery();
-			if (rs.next()) {
-				list.add(new Book(rs.getString("bNo")//
-						, rs.getString("title")//
-						, rs.getString("genre")//
-						, rs.getString("author")//
-						, rs.getString("company")//
-						, rs.getString("inputdate")//
-						, rs.getString("price")));
+			if (r == 0) {
+				System.out.println("해당 도서명은 없습니다");
 			} else {
-				System.out.println("해당 도서는 없습니다");
+				while (rs.next()) {
+					list.add(new Book(rs.getString("bNo")//
+							, rs.getString("title")//
+							, rs.getString("genre")//
+							, rs.getString("author")//
+							, rs.getString("company")//
+							, rs.getString("inputdate")//
+							, rs.getString("price")));
+				}
+			}
+			for (Book l : list) {
+				System.out.println(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return list;
+	}
+
+	// 한건만 조회(장르 검색)
+	public List<Book> getGenreList(String genre) {
+		conn = getConnect();
+		List<Book> list = new ArrayList<Book>();
+		String sql = "select * from book_table where genre like '%'||?||'%' order by cast(bNo as int)  ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, genre);
+			int r = psmt.executeUpdate();
+			rs = psmt.executeQuery();
+			if (r == 0) {
+				System.out.println("해당 장르는 없습니다");
+			} else {
+				while (rs.next()) {
+					list.add(new Book(rs.getString("bNo")//
+							, rs.getString("title")//
+							, rs.getString("genre")//
+							, rs.getString("author")//
+							, rs.getString("company")//
+							, rs.getString("inputdate")//
+							, rs.getString("price")));
+				}
+			}
+			for (Book l : list) {
+				System.out.println(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return list;
+	}
+
+	// 한건만 조회(작가 검색)
+	public List<Book> getAuthorList(String author) {
+		conn = getConnect();
+		List<Book> list = new ArrayList<Book>();
+		String sql = "select * from book_table where author like '%'||?||'%' order by cast(bNo as int)  ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, author);
+			int r = psmt.executeUpdate();
+			rs = psmt.executeQuery();
+			if (r == 0) {
+				System.out.println("해당 작가의 도서는 없습니다");
+			} else {
+				while (rs.next()) {
+					list.add(new Book(rs.getString("bNo")//
+							, rs.getString("title")//
+							, rs.getString("genre")//
+							, rs.getString("author")//
+							, rs.getString("company")//
+							, rs.getString("inputdate")//
+							, rs.getString("price")));
+				}
+			}
+			for (Book l : list) {
+				System.out.println(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return list;
+	}
+
+	// 한건만 조회(출판사 검색)
+	public List<Book> getCompanyList(String company) {
+		conn = getConnect();
+		List<Book> list = new ArrayList<Book>();
+		String sql = "select * from book_table where company like '%'||?||'%' order by cast(bNo as int)  ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, company);
+			int r = psmt.executeUpdate();
+			rs = psmt.executeQuery();
+			if (r == 0) {
+				System.out.println("해당 출판사의 도서는 없습니다");
+			} else {
+				while (rs.next()) {
+					list.add(new Book(rs.getString("bNo")//
+							, rs.getString("title")//
+							, rs.getString("genre")//
+							, rs.getString("author")//
+							, rs.getString("company")//
+							, rs.getString("inputdate")//
+							, rs.getString("price")));
+				}
 			}
 			for (Book l : list) {
 				System.out.println(l);
@@ -360,11 +464,11 @@ public class BookDAO extends DAO {
 			psmt.setString(1, book.getbNo());
 
 			int r = psmt.executeUpdate();
-			
+
 			if (r == 0) {
 				System.out.println("반납실패");
-			}else {
-				System.out.println("반납완료");	
+			} else {
+				System.out.println("반납완료");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -385,7 +489,7 @@ public class BookDAO extends DAO {
 			int r = psmt.executeUpdate();
 
 			if (r == 1) {
-				System.out.println(r + "건 삭제");
+				System.out.println("삭제완료");
 			} else {
 				System.out.println("삭제할 내역이 없습니다");
 			}

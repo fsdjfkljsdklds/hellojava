@@ -16,6 +16,7 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 	// 입력항목
 	private String[] labels = { "사원번호", "이름", "성씨", "이메일", "입사일자", "직무" };
 	private JTextField[] fields = new JTextField[6];
+	
 
 	// 컨테이너
 	private JPanel topPanel;
@@ -85,8 +86,14 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 	public void searchData() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		String[] record = new String[6];
-		model.addRow(record);
-		list = dao.empList(new EmployeeVO(0, null, null, null, null, null));
+
+		// 화면에 조회된 결과 있으면 clear
+
+		int allCnt = model.getRowCount();
+		for (int i = 0; i < allCnt; i++) {
+			model.removeRow(0);
+		}
+		list = dao.empList(new EmployeeVO(0, fields[1].getText(), fields[2].getText(), fields[3].getText(), fields[4].getText(), fields[5].getText()));
 
 		for (int i = 0; i < list.size(); i++) {
 			record[0] = String.valueOf(list.get(i).getEmployeeId());
@@ -96,7 +103,42 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 			record[4] = list.get(i).getHireDate();
 			record[5] = list.get(i).getJobId();
 			model.addRow(record);
+
 		}
+	}
+
+	// 추가 메소드
+	public void addData() {
+		String[] records = new String[6];
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		for (int i = 0; i < fields.length; i++) {
+			records[i] = fields[i].getText();
+		}
+		EmployeeVO emp = new EmployeeVO(0, records[1], records[2], records[3], records[4], records[5]);
+		dao.insertEmp(emp);
+
+		records[0] = String.valueOf(emp.getEmployeeId());
+
+		model.addRow(records);
+
+	}
+
+	// 삭제 메소드
+	public void removeData() {
+		int selectedRow = table.getSelectedRow(); // 선택된 row 반환.
+		if (selectedRow < 0) {
+			return; // 메소드 끝
+		} else {
+
+		}
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
+
+		dao.deleteEmp(empId);
+
+		model.removeRow(selectedRow); // 화면에서도 삭제
+
 	}
 
 	@Override
@@ -104,8 +146,9 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 		// 눌러진 버튼에 따라 구분
 		Object src = e.getSource();
 		if (src == addBtn) {
-
+			addData();
 		} else if (src == delBtn) {
+			removeData();
 
 		} else if (src == findBtn) {
 			searchData();
@@ -123,11 +166,6 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// table 이벤트
-		int selectedRow = table.getSelectedRow(); // 선택된 row 반환.
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
-		
-		dao.deleteEmp(empId);
 
 	}// end of mouseListner
 
