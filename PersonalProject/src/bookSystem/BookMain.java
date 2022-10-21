@@ -193,7 +193,10 @@ public class BookMain {
 						System.out.println("잘못된 입력입니다");
 					}
 
-				} else {
+				}else if(subMenu ==9) {
+					System.out.println("종료합니다");
+					break;
+			}else {
 					System.out.println("잘못된 입력입니다");
 				}
 			} catch (Exception e) {
