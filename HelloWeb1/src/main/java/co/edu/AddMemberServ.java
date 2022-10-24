@@ -19,7 +19,8 @@ public class AddMemberServ extends HttpServlet {
 	public AddMemberServ() {
 		super();
 	}
-
+	
+	// get 방식의 요청
 	protected void doGet(HttpServletRequest request//
 			, HttpServletResponse response) throws ServletException, IOException {
 
@@ -53,10 +54,16 @@ public class AddMemberServ extends HttpServlet {
 				+ "입니다."
 				+ "<br><a href=\"http://localhost:8081/HelloWeb1/index.html\">첫페이지로 이동</a>");
 	}
-
+	
+	
+	// post 방식의 요청 시 실행
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+		//doGet(request, response);
+		PrintWriter out = response.getWriter(); // 사용자의 브라우저(출력스트림 생성)
+		out.print("<h3>Post 방식의 요청</h3>");
+		
 	}
 
 }

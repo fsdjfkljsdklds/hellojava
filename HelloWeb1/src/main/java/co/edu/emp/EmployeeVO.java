@@ -7,6 +7,19 @@ public class EmployeeVO {
 	private String email;
 	private String hireDate;
 
+	public EmployeeVO(String jobId) {
+		super();
+		this.jobId = jobId;
+	}
+
+	public EmployeeVO(int employeeId, String lastName, String email, String jobId) {
+		super();
+		this.employeeId = employeeId;
+		this.lastName = lastName;
+		this.email = email;
+		this.jobId = jobId;
+	}
+
 	public EmployeeVO(int employeeId, String firstName, String lastName, String email, String hireDate, String jobId) {
 		super();
 		this.employeeId = employeeId;

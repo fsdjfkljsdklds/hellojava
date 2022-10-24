@@ -23,7 +23,7 @@ public class EmpDAO extends DAO {
 				seqInt = rs.getInt(1);
 
 			}
-			//insert 작업
+			// insert 작업
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, seqInt);
 			psmt.setString(2, vo.getFirstName());
@@ -33,7 +33,7 @@ public class EmpDAO extends DAO {
 			psmt.setString(6, vo.getJobId());
 			int r = psmt.executeUpdate(); // 쿼리실행
 			System.out.println(r + "건 입력됨.");
-			
+
 			// 새로 입력한 사원번호.
 			vo.setEmployeeId(seqInt);
 
@@ -90,7 +90,7 @@ public class EmpDAO extends DAO {
 		List<EmployeeVO> empList = new ArrayList<EmployeeVO>();
 		getConnect();
 		String sql = "select * from empl"//
-				+ " where employee_id = decode(?, 0, employee_id, ?)"//
+				+ " where nvl(employee_id,0) = decode(?, 0, nvl(employee_id,0), ?)"//
 				+ " and first_name like '%'||?||'%' " //
 				+ " and last_name like '%'||?||'%' " //
 				+ " and email like '%'||?||'%' " //
