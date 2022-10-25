@@ -8,5 +8,7 @@
 </head>
 <body>
 <h3>회원정보수정완료</h3>
+
+<input type= "button" value="메인화면" onClick="location.href='http://localhost:8081/H20221024/'">
 </body>
 </html>

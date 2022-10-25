@@ -17,6 +17,6 @@
 	</form>
 
 
-
+	<input type= "button" value="메인화면" onClick="location.href='http://localhost:8081/H20221024/'">
 </body>
 </html>

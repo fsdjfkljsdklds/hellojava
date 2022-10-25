@@ -7,7 +7,9 @@
 <title>memberInsertOutput.jsp</title>
 </head>
 <body>
-	<h3>처리가 완료되었습니다!</h3>
+	<h3>입력처리가 완료되었습니다!</h3>
+	
+	<input type= "button" value="메인화면" onClick="location.href='http://localhost:8081/H20221024/'">
 </body>
 </html>
 

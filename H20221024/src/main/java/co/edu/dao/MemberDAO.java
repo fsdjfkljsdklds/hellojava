@@ -1,6 +1,5 @@
 package co.edu.dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +11,17 @@ public class MemberDAO extends DAO {
 
 	// 생성
 	public void memberInsert(MemberVO vo) {
-		String sql = "insert into members (id,passwd,name,email)" //
-				+ "values( '" + vo.getId()//
-				+ "', '" + vo.getPasswd()//
-				+ "', '" + vo.getName()//
-				+ "', '" + vo.getEmail() + "')";
-
+		String sql = "insert into members (id,passwd,name,email,responsibility)" //
+				+ "values(?,?,?,?,'user')";
 		conn = getConnect();
 		try {
-			stmt = conn.createStatement();
-			int r = stmt.executeUpdate(sql);
-			System.out.println(r + "멤버 등록완료");
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getId());
+			psmt.setString(2, vo.getPasswd());
+			psmt.setString(3, vo.getName());
+			psmt.setString(4, vo.getEmail());
+
+			psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -44,10 +43,11 @@ public class MemberDAO extends DAO {
 				list = new MemberVO(rs.getString("id")//
 						, rs.getString("passwd")//
 						, rs.getString("name")//
-						, rs.getString("email"));
+						, rs.getString("email"));//
 			} else {
-				System.out.println("해당 아이디는 없습니다");
+				System.out.println("해당 멤버는 없습니다");
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -58,22 +58,20 @@ public class MemberDAO extends DAO {
 
 	// 수정
 	public void memberUpdate(MemberVO vo) {
-		getConnect();
-		String sql = "update members "//
-				+ "set passwd = ?, "//
-				+ "    name = ?, "//
-				+ "    email = ? "//
-				+ "where id = ?";
 		conn = getConnect();
+		String name = null;
+		String sql = "update members set id =?,"//
+				+ "passwd =?, name =?, email=?"//
+				+ "where id ='" + vo.getId() + "'";
+
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, vo.getPasswd());
-			psmt.setString(2, vo.getName());
-			psmt.setString(3, vo.getEmail());
-			psmt.setString(4, vo.getId());
-
-			int r = psmt.executeUpdate();
-			System.out.println(r + "건 변경");
+			
+			psmt.setString(1, vo.getId());
+			psmt.setString(2, vo.getPasswd());
+			psmt.setString(3, vo.getName());
+			psmt.setString(4, vo.getEmail());
+			int rs= psmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,6 +113,7 @@ public class MemberDAO extends DAO {
 						, rs.getString("passwd")//
 						, rs.getString("name")//
 						, rs.getString("email")));
+
 			}
 			if (r == 0) {
 				System.out.println("목록이 없습니다");
@@ -125,6 +124,34 @@ public class MemberDAO extends DAO {
 			disConnect();
 		}
 		return list;
+	}
+
+	// 로그인(String id, String passwd) =>MemberVO
+	public MemberVO login(String id, String passwd) {
+		getConnect();
+		String sql = "select * from members where id=? and passwd=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, passwd);
+
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setResponsibility(rs.getString("responsibility"));
+				return vo;
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disConnect();
+		}
+		return null;
 	}
 
 }

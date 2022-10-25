@@ -31,4 +31,9 @@ public class MemberServiceMysql implements MemberService {
 		return null;
 	}
 
+	@Override
+	public MemberVO login(String id, String passwd) {
+		return null;
+	}
+
 }

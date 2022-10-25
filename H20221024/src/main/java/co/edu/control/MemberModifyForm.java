@@ -15,8 +15,9 @@ public class MemberModifyForm implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		MemberService service = new MemberServiceImpl();
+		String name = req.getParameter("name");
+		req.setAttribute("mname", name);
 		HttpUtil.forward(req, resp, "memberView/memberUpdate.jsp");
 
 	}

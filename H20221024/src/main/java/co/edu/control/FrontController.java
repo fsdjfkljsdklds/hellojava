@@ -16,11 +16,27 @@ public class FrontController extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
+		//메인
 		control.put("/main.do", new MainControl());
+		//추가
 		control.put("/memberAddForm.do", new MemberAddForm());
 		control.put("/memberAdd.do", new MemberAddControl());
+		//수정
 		control.put("/memberModifyForm.do", new MemberModifyForm());
 		control.put("/memberModify.do", new MemberModifyControl());
+		//삭제
+		control.put("/memberRemoveForm.do", new MemberRemoveForm());
+		control.put("/memberRemove.do", new MemberRemoveControl());
+		//한건조회
+		control.put("/memberSearchForm.do", new MemberSearchForm());
+		control.put("/memberSearch.do", new MemberSearchControl());
+		//목록
+		control.put("/memberList.do", new MemberListControl());
+		//로그인
+		control.put("/loginForm.do", new LoginForm());
+		control.put("/login.do", new LoginControl());
+		//로그아웃
+		control.put("/logout.do", new LogOut());
 	}
 
 	@Override
